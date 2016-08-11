@@ -13,7 +13,7 @@ By thinking from a player's perceptive, I wanted to know if I can predict a play
 ## Overview / Data
 
 I scrapped most of data from [Baseball-Reference](baseball-reference.com).
-![Overall Picture](TheFarm/Images/Flow.png)
+![Overall Picture](https://github.com/danhwangya/TheFarm/blob/master/Images/Flow.png)
 
 
 ## Insights
