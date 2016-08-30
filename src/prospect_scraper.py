@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from collections import defaultdict
 
-def scrapper():
+def scraper():
     team_nums = range(2, 33)
     url = 'http://www.thebaseballcube.com/prospects/byTeam.asp?T=%s'
     for num in team_nums:
