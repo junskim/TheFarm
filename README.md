@@ -56,3 +56,5 @@ It is clear that the model has some room for improvement. Things I can try are:
 2. More feature engineering, narrowing down the features.
 3. Refer to similar projects from other people, have more insights.
 4. Go further, predict how WELL the player will perform in the majors.
+
+If you have any suggestions, feel free to email me: jun.kim8706@gmail.com
