@@ -45,3 +45,5 @@ I tried to model two different models: one for the pitchers and one for the posi
 |**Actual**<br>**No**| **1900**<br>14.0%<br>(False Positive)     | **11483**<br>85.0%<br>(True Negative) |
 
 Since the data was imbalanced, the models were having a hard time capturing the minor class. After using undersampling technique, the models were doing a much better job capturing the positive class. However at the same time, they were predicting too many players with the positive class, **thus giving lots of false hopes**.
+
+![feat_imp_bat](https://github.com/danhwangya/TheFarm/blob/master/Images/feat_imp_bat.png)
