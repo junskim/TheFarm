@@ -12,7 +12,7 @@ It was for my best interest to predict a player's chance of making it to the Maj
 
 ## Overview
 
-![Overall Picture](https://github.com/danhwangya/TheFarm/blob/master/Images/Flow.png)
+![Overall Picture](https://github.com/danhwangya/TheFarm/blob/master/Images/Flow.jpg)
 
 ## Data
 I scrapped most of my data from [Baseball-Reference](http://www.baseball-reference.com/).
