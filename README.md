@@ -47,3 +47,12 @@ I tried to model two different models: one for the pitchers and one for the posi
 Since the data was imbalanced, the models were having a hard time capturing the minor class. After using undersampling technique, the models were doing a much better job capturing the positive class. However at the same time, they were predicting too many players with the positive class, **thus giving lots of false hopes**.
 
 ![feat_imp_bat](https://github.com/danhwangya/TheFarm/blob/master/Images/feat_imp_bat.png)
+Figure above is a relative feature importance plot of Random Forest model for positional players. It shows that PA (number of plate appearance), Lev (the league level that the player was in; reflects average league level + number of promotion/'jump' within a year), and number of games played were top 3 relevant features for model's prediction, whereas position or batting hand did not have much relevance in terms of model prediction.
+
+## Next Steps
+It is clear that the model has some room for improvement. Things I can try are:
+
+1. Adjust the stats with league averages and PF (Park Factor).
+2. More feature engineering, narrowing down the features.
+3. Refer to similar projects from other people, have more insights.
+4. Go further, predict how WELL the player will perform in the majors.
