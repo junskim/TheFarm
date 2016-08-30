@@ -32,5 +32,9 @@ I tried to model two different models: one for the pitchers and one for the posi
 
 | Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
 | :---: | :---: | :---: |
-|Actual<br>**Yes**| **114**<br>0.8%<br>(True Positive)     | **31**<br>0.2%<br>(False Negative) |
-|Actual<br>**No**| **1900**<br>14%<br>(False Positive)     | **11483**<br>85%<br>(True Negative) |
+|**Actual**<br>**Yes**| **114**<br>0.8%<br>(True Positive)     | **31**<br>0.2%<br>(False Negative) |
+|**Actual**<br>**No**| **1900**<br>14%<br>(False Positive)     | **11483**<br>85%<br>(True Negative) |
+| Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
+| :---: | :---: | :---: |
+|**Actual**<br>**Yes**| **114**<br>0.8%<br>(True Positive)     | **31**<br>0.2%<br>(False Negative) |
+|**Actual**<br>**No**| **1900**<br>14%<br>(False Positive)     | **11483**<br>85%<br>(True Negative) |
