@@ -22,7 +22,7 @@ I used Minor League Baseball players data from 2000 to 2016, as I was more inter
 2. Extracted list of players who appeared in the MLB for the first time each year. I used the list to label the data in later steps with make/not make to the majors. For example, if a player first appeared in 2013, then the player's stats in 2012 is labeled with a positive class, with removing any data after 2012, since what I care is FIRST appearance of the player in the MLB.
 3. Divided the players into two categories: Pitchers and Batters (or Positional Players) using the position info from each player's bio section.
 
-Data was quite imbalanced, with only 1% positive class. (https://)
+Data was quite imbalanced, with only 1% positive class. (https://github.com/danhwangya/TheFarm/blob/master/Images/Imbalanced.png)
 
 ## Modeling
 I tried to model two different models: one for the pitchers and one for the positional players. I used three models: Logistic Regression, Random Forest Classifier, and Gradient Boost Classifier.
