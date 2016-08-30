@@ -30,12 +30,12 @@ Data was quite imbalanced, with only 1% positive class. ![imbalanced_class](http
 ## Modeling & Evaluation
 I tried to model two different models: one for the pitchers and one for the positional players. I used three models: Logistic Regression, Random Forest Classifier, and Gradient Boost Classifier. Logistic Regression had the best result, however Random Forest's result was very close to that of Logistic Regression.
 
-
+**1. Original Data**
 | Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
 | :---: | :---: | :---: |
 |**Actual**<br>**Yes**| **0**<br>0.00%<br>(True Positive)     | **145**<br>1.00%<br>(False Negative) |
 |**Actual**<br>**No**| **0**<br>0.00%<br>(False Positive)     | **13383**<br>99.0%<br>(True Negative) |
-
+**2. After random undersampling (0.5)**
 | Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
 | :---: | :---: | :---: |
 |**Actual**<br>**Yes**| **114**<br>0.80%<br>(True Positive)     | **31**<br>0.20%<br>(False Negative) |
