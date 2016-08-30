@@ -32,6 +32,6 @@ I tried to model two different models: one for the pitchers and one for the posi
 
 | Will make it to the majors next year?   | Predicted\n**Yes** | Predicted\n**No** |
 | --- | --- | --- |
-| **114**\n0.8%\n(True Positive)     | right-aligned | $1600 |
+| **114**<br>0.8%<br>(True Positive)     | right-aligned | $1600 |
 | col 2 is      | centered      |   $12 |
 | zebra stripes | are neat      |    $1 |
