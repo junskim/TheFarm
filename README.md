@@ -27,14 +27,16 @@ I used Minor League Baseball players data from 2000 to 2016, as I was more inter
 
 Data was quite imbalanced, with only 1% positive class. ![imbalanced_class](https://github.com/danhwangya/TheFarm/blob/master/Images/Imbalanced.jpg)
 
-## Modeling
+## Modeling & Evaluation
 I tried to model two different models: one for the pitchers and one for the positional players. I used three models: Logistic Regression, Random Forest Classifier, and Gradient Boost Classifier. Logistic Regression had the best result, however Random Forest's result was very close to that of Logistic Regression.
+
 
 | Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
 | :---: | :---: | :---: |
-|**Actual**<br>**Yes**| **114**<br>0.8%<br>(True Positive)     | **31**<br>0.2%<br>(False Negative) |
-|**Actual**<br>**No**| **1900**<br>14%<br>(False Positive)     | **11483**<br>85%<br>(True Negative) |
+|**Actual**<br>**Yes**| **0**<br>0.00%<br>(True Positive)     | **145**<br>1.00%<br>(False Negative) |
+|**Actual**<br>**No**| **0**<br>0.00%<br>(False Positive)     | **13383**<br>99.0%<br>(True Negative) |
+
 | Will make it<br>to the majors<br>next year?   | Predicted<br>**Yes** | Predicted<br>**No** |
 | :---: | :---: | :---: |
-|**Actual**<br>**Yes**| **114**<br>0.8%<br>(True Positive)     | **31**<br>0.2%<br>(False Negative) |
-|**Actual**<br>**No**| **1900**<br>14%<br>(False Positive)     | **11483**<br>85%<br>(True Negative) |
+|**Actual**<br>**Yes**| **114**<br>0.80%<br>(True Positive)     | **31**<br>0.20%<br>(False Negative) |
+|**Actual**<br>**No**| **1900**<br>14.0%<br>(False Positive)     | **11483**<br>85.0%<br>(True Negative) |
