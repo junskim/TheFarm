@@ -1,4 +1,4 @@
-"""Player scrapper script.
+"""Player scraper script.
 
 This script will scrap raw html of individual player webpage with stats
 which will be further extracted into different tables
@@ -21,10 +21,10 @@ from functools import partial
 import pdb
 import pandas as pd
 
-class scrapper(object):
-    """Scrapper for raw html of player stats page.
+class scraper(object):
+    """Scraper for raw html of player stats page.
 
-    order of scrapping :
+    order of scraping :
         (click_initial) --> get_soup --> filter_players --> profiles
                         --> filter_players
 
@@ -43,7 +43,7 @@ class scrapper(object):
         self.player_coll = None
 
     def click_initial(self, link_coll_name, start_init='aa', end_init='zz'):
-        """An intial step of scrapper.
+        """An intial step of scraper.
 
         INPUT
         ------
@@ -75,7 +75,7 @@ class scrapper(object):
             self.link_coll.insert_one({'links_html': html})
 
     def get_soup(self, link_coll_name):
-        """A second step of scrapper.
+        """A second step of scraper.
 
         INPUT
         ------
