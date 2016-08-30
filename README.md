@@ -28,4 +28,5 @@ I used Minor League Baseball players data from 2000 to 2016, as I was more inter
 Data was quite imbalanced, with only 1% positive class. ![imbalanced_class](https://github.com/danhwangya/TheFarm/blob/master/Images/Imbalanced.jpg)
 
 ## Modeling
-I tried to model two different models: one for the pitchers and one for the positional players. I used three models: Logistic Regression, Random Forest Classifier, and Gradient Boost Classifier.
+I tried to model two different models: one for the pitchers and one for the positional players. I used three models: Logistic Regression, Random Forest Classifier, and Gradient Boost Classifier. Logistic Regression had the best result, however Random Forest's result was very close to that of Logistic Regression.
+![nonsampled](https://github.com/danhwangya/TheFarm/blob/master/Images/nonsampled.jpg)![undersampled](https://github.com/danhwangya/TheFarm/blob/master/Images/undersampled.jpg)
