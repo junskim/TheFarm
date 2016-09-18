@@ -1,3 +1,11 @@
+"""EDA script imported from a Jupyter Notebook
+
+This script imports batting/picthing/fielding/bio/id tables
+prepared from prepare_table.py, does basic cleaning of each table,
+then merge the tables together.
+
+"""
+
 import pandas as pd
 import numpy as np
 import string
@@ -5,6 +13,13 @@ from itertools import izip
 printable = set(string.printable)
 
 class clean_data(object):
+    """
+    INPUT
+    ------
+    path: path to separate stat tables
+
+    (clean_batting, clean_pitching, clean_fielding) -
+    """
     def __init__(self, path):
         self.path = path
         self.players_batting = pd.read_csv(path + '/batting.csv')
@@ -17,6 +32,7 @@ class clean_data(object):
         self.rookies = pd.read_csv(path + '/rookies.csv')
         self.players = None
 
+        # making a list of players who have '--' as their age
         drop_id = set()
         for df in [self.players_fielding, self.players_batting,
                    self.players_pitching]:
@@ -25,44 +41,68 @@ class clean_data(object):
         self.drop_id_lst = list(drop_id)
 
     def clean_batting(self):
+        """
+        Does basic cleaning of batting table
+        """
         players_batting = self.players_batting.drop('index', axis=1)
         players_batting = players_batting[players_batting['OPS'] != 'OPS']
         players_batting.Tm = players_batting.Tm.apply(
             lambda x: filter(lambda y: y in printable, x))
+        # dropping rows that has 'Teams' in Teams column
         players_batting.Tm = players_batting['Tm'].apply(
             lambda x: 'toss_away' if 'Teams' in x else x)
         players_batting = players_batting[players_batting.Tm != 'toss_away']
 
-        players_batting.Aff = players_batting.Aff.fillna('N/A')  # fill missing Aff with N/A
-        players_batting = players_batting[players_batting.AgeDif.notnull()]  # dropping rows with missing AgeDif
-        players_batting = players_batting.fillna(0)  # fill the rest of missing values with 0
+        # fill missing Aff with N/A
+        players_batting.Aff = players_batting.Aff.fillna('N/A')
+        # dropping rows with missing AgeDif
+        players_batting = players_batting[players_batting.AgeDif.notnull()]
+        # fill the rest of missing values with 0
+        players_batting = players_batting.fillna(0)
 
+        # dropping players whose age is '--'
         for id in self.drop_id_lst:
-            players_batting = players_batting[players_batting['player_id'] != id]  # this person has '--' as age
+            players_batting = players_batting[players_batting['player_id'] != id]
 
-        players_batting[['Age', 'AgeDif']] = players_batting[['Age', 'AgeDif']].apply(lambda x: pd.to_numeric(x))
-        players_batting[players_batting.columns[8:]] = players_batting[players_batting.columns[8:]].apply(lambda x: pd.to_numeric(x))
+        players_batting[['Age', 'AgeDif']] =\
+            players_batting[['Age', 'AgeDif']].apply(lambda x: pd.to_numeric(x))
+        players_batting[players_batting.columns[8:]] =\
+            players_batting[players_batting.columns[8:]].apply(
+                lambda x: pd.to_numeric(x))
 
 
     def clean_pitching(self):
+        """
+        Does basic cleaning of picthing table
+        """
         players_pitching = self.players_pitching.drop('index', axis=1)
         players_pitching = players_pitching[players_pitching.HR != 'HR']
-        players_pitching.Tm = players_pitching.Tm.apply(lambda x: filter(lambda y: y in printable, x))
-
+        players_pitching.Tm = players_pitching.Tm.apply(
+            lambda x: filter(lambda y: y in printable, x))
+        # dropping rows that has 'Teams' in Teams column
         players_pitching.Tm = players_pitching['Tm'].apply(
             lambda x: 'toss_away' if 'Teams' in x else x)
         players_pitching = players_pitching[players_pitching.Tm != 'toss_away']
 
-        players_pitching = players_pitching.drop('W-L_perc', axis=1)  # dropping W-L perc as it is largely correlated.
+        # dropping W-L perc as it is largely correlated
+        players_pitching = players_pitching.drop('W-L_perc', axis=1)
+        # fill missing Aff with N/A
         players_pitching.Aff = players_pitching.Aff.fillna('N/A')
+        # dropping rows with missing AgeDif
         players_pitching = players_pitching[players_pitching.AgeDif.notnull()]
+        # fill the rest of missing values with 0
         players_pitching = players_pitching.fillna(0)
 
+        # dropping players whose age is '--'
         for id in self.drop_id_lst:
-            players_pitching = players_pitching[players_pitching['player_id'] != id]  # this person has '--' as age
+            players_pitching = players_pitching[players_pitching[
+                'player_id'] != id]
 
-        players_pitching[['Age', 'AgeDif']] = players_pitching[['Age', 'AgeDif']].apply(lambda x: pd.to_numeric(x))
-        players_pitching[players_pitching.columns[8:]] = players_pitching[players_pitching.columns[8:]].apply(lambda x: pd.to_numeric(x))
+        players_pitching[['Age', 'AgeDif']] = players_pitching[
+            ['Age', 'AgeDif']].apply(lambda x: pd.to_numeric(x))
+        players_pitching[players_pitching.columns[8:]] =\
+            players_pitching[players_pitching.columns[8:]].apply(
+                lambda x: pd.to_numeric(x))
 
     def clean_fielding(self):
         players_fielding = self.players_fielding.drop('index', axis=1)

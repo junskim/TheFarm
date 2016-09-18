@@ -25,8 +25,8 @@ class scraper(object):
     """Scraper for raw html of player stats page.
 
     order of scraping :
-        (click_initial) --> get_soup --> filter_players --> profiles
-                        --> filter_players
+        (click_initial) --> get_soup --> filter_players_by_year --> profiles
+                        --> filter_players_by_league
 
     INPUT
     ------
@@ -97,7 +97,7 @@ class scraper(object):
             order += 1
         self.html_lst = html_lst
 
-    def filter_players(self, era):
+    def filter_players_by_year(self, era):
         '''
         INPUT
         -------
@@ -163,7 +163,7 @@ class scraper(object):
             self.player_coll.insert_one({'html': html})
             print link
 
-    def filter_players(self, filtered_coll_name):
+    def filter_players_by_league(self, filtered_coll_name):
         """
         Filters out players who did NOT play in any of the Minor League system
             (Foreign Rookie, Rookie, A-, A, A+, AA, AAA)
