@@ -1,3 +1,8 @@
+"""MLB_teamstats_scraper scipt
+
+This script is for scraping MLB team stats for future use
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import datetime

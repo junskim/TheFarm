@@ -1,4 +1,4 @@
-"""EDA script imported from a Jupyter Notebook
+"""table_EDA script imported from a Jupyter Notebook
 
 This script imports batting/picthing/fielding/bio/id tables
 prepared from prepare_table.py, does basic cleaning of each table,
@@ -107,67 +107,102 @@ class clean_data(object):
     def clean_fielding(self):
         players_fielding = self.players_fielding.drop('index', axis=1)
         players_fielding = players_fielding[players_fielding['DP'] != 'DP']
-        players_fielding.Tm = players_fielding.Tm.apply(lambda x: filter(lambda y: y in printable, x))
-        players_fielding.Tm = players_fielding['Tm'].apply(lambda x: 'toss_away' if 'Teams' in x else x)
+        players_fielding.Tm = players_fielding.Tm.apply(
+            lambda x: filter(lambda y: y in printable, x))
+        players_fielding.Tm = players_fielding['Tm'].apply(
+            lambda x: 'toss_away' if 'Teams' in x else x)
         players_fielding = players_fielding[players_fielding.Tm != 'toss_away']
 
-        players_fielding.Aff = players_fielding.Aff.fillna('N/A')  # foreign / ind leagues have no aff. fill with N/A
-        players_fielding = players_fielding.drop(['CG', 'WP', 'PO', 'lgCS_perc', 'PB', 'GS', 'Inn', 'RF/9'], axis=1)  # dropping 'CG' which has nothing in.
+        # foreign / ind leagues have no aff. fill with N/A
+        players_fielding.Aff = players_fielding.Aff.fillna('N/A')
+        # dropping 'CG' which has nothing in
+        players_fielding = players_fielding.drop(
+            ['CG', 'WP', 'PO', 'lgCS_perc', 'PB', 'GS', 'Inn', 'RF/9'], axis=1)
 
-        # Had to drop GS, Inn, and RF/9 because a lot of lower leagues have them blank. I have to rely on fielding% and RF/G, G, and Ch.
+        # Had to drop GS, Inn, and RF/9 because a lot of lower leagues
+        # have them blank. I have to rely on fielding% and RF/G, G, and Ch.
 
-        players_fielding = players_fielding.fillna(0)  # fill the rest of missing values with 0.
-        players_fielding.Something = players_fielding.Something.apply(lambda x: 'N/A' if x == 0 else x)
-        players_fielding.Something = players_fielding.Something.apply(lambda x: 'C' if x == 'c' else x)
-        players_fielding.CS_perc = players_fielding.CS_perc.apply(lambda x: str(x))
-        players_fielding.CS_perc = players_fielding.CS_perc.apply(lambda x: x.replace('%', ''))
-        players_fielding = players_fielding.rename(columns={'Something': 'Fielding_position'})
-        players_fielding[players_fielding.columns[8:]] = players_fielding[players_fielding.columns[8:]].apply(lambda x: pd.to_numeric(x))
+        # fill the rest of missing values with 0
+        players_fielding = players_fielding.fillna(0)
+        players_fielding.Something = players_fielding.Something.apply(
+            lambda x: 'N/A' if x == 0 else x)
+        players_fielding.Something = players_fielding.Something.apply(
+            lambda x: 'C' if x == 'c' else x)
+        players_fielding.CS_perc = players_fielding.CS_perc.apply(
+            lambda x: str(x))
+        players_fielding.CS_perc = players_fielding.CS_perc.apply(
+            lambda x: x.replace('%', ''))
+        players_fielding = players_fielding.rename(
+            columns={'Something': 'Fielding_position'})
+        players_fielding[players_fielding.columns[8:]] =\
+            players_fielding[players_fielding.columns[8:]].apply(
+                lambda x: pd.to_numeric(x))
 
+        # this person has '--' as age
         for id in self.drop_id_lst:
-            players_fielding = players_fielding[players_fielding['player_id'] != id]  # this person has '--' as age
-        players_fielding['Age'] = players_fielding['Age'].apply(lambda x: pd.to_numeric(x))
+            players_fielding =\
+                players_fielding[players_fielding['player_id'] != id]
+        players_fielding['Age'] = players_fielding['Age'].apply(
+            lambda x: pd.to_numeric(x))
 
         # duplicated ones
-        players_fielding[players_fielding.duplicated(['player_id', 'Year', 'Lev'],
-        keep=False) == True].ix[267264:267268]
+        players_fielding[players_fielding.duplicated([
+            'player_id', 'Year', 'Lev'], keep=False) == True].ix[267264:267268]
 
-        dup_index_sets = players_fielding[players_fielding.duplicated(['player_id', 'Year', 'Tm', 'Lev'],
-        keep=False) == True].groupby(['player_id', 'Year', 'Lev']).groups.values()
+        dup_index_sets = players_fielding[players_fielding.duplicated(
+            ['player_id', 'Year', 'Tm', 'Lev'], keep=False) == True].groupby(
+                ['player_id', 'Year', 'Lev']).groups.values()
 
         # The function below will clean the fielding data
         for ix_set in xrange(len(dup_index_sets)):
             try:
-                dup_position = players_fielding.ix[dup_index_sets[ix_set]]['Fielding_position']
+                dup_position = players_fielding.ix[dup_index_sets[ix_set]][
+                    'Fielding_position']
 
                 if 'OF' in list(dup_position):
-                    filtered_dup_ix = dup_position[(dup_position != 'LF') & (dup_position != 'RF') & (dup_position != 'CF') & (dup_position != 'DH') & (dup_position != 'P')].index
+                    filtered_dup_ix = dup_position[(
+                        dup_position != 'LF') & (dup_position != 'RF') & (
+                            dup_position != 'CF') & (dup_position != 'DH') & (
+                                dup_position != 'P')].index
                 else:
                     filtered_dup_ix = dup_position[(dup_position != 'DH')].index
+
                 summed_field = list(players_fielding.ix[filtered_dup_ix][[
                         'G', 'Ch', 'A', 'E', 'DP', 'SB', 'CS']].sum())
-                avg_field = list(players_fielding.ix[filtered_dup_ix][['Fld_perc', 'RF/G', 'CS_perc']].mean())
-                concat_position = list(players_fielding.ix[filtered_dup_ix].Fielding_position)
-                players_fielding = players_fielding.set_value(dup_index_sets[ix_set][0], ['G', 'Ch', 'A', 'E', 'DP', 'SB', 'CS'], summed_field)
-                players_fielding = players_fielding.set_value(dup_index_sets[ix_set][0], ['Fld_perc', 'RF/G', 'CS_perc'], avg_field)
-                players_fielding = players_fielding.set_value(dup_index_sets[ix_set][0], 'Fielding_position', concat_position)
+                avg_field = list(players_fielding.ix[filtered_dup_ix][[
+                    'Fld_perc', 'RF/G', 'CS_perc']].mean())
+                concat_position = list(
+                    players_fielding.ix[filtered_dup_ix].Fielding_position)
+                players_fielding = players_fielding.set_value(
+                    dup_index_sets[ix_set][0], [
+                        'G', 'Ch', 'A', 'E', 'DP', 'SB', 'CS'], summed_field)
+                players_fielding = players_fielding.set_value(
+                    dup_index_sets[ix_set][0], [
+                        'Fld_perc', 'RF/G', 'CS_perc'], avg_field)
+                players_fielding = players_fielding.set_value(
+                    dup_index_sets[
+                        ix_set][0], 'Fielding_position', concat_position)
 
             except IndexError:
                 print ix_set
 
-        players_fielding = players_fielding.drop_duplicates(['player_id', 'Year', 'Tm', 'Lev'])
+        players_fielding = players_fielding.drop_duplicates(
+            ['player_id', 'Year', 'Tm', 'Lev'])
 
     def merge_id_bio(self):
         players = pd.merge(self.players_id, self.players_bio, how='inner',
                            left_on='player_id', right_on='player_id',
                            suffixes=('_id', '_bio'))
         # Making dummy variables for players bio
-        players.Drafted = players.Drafted.apply(lambda x: 0 if x == 'N/A' else x)
+        players.Drafted = players.Drafted.apply(
+            lambda x: 0 if x == 'N/A' else x)
         players.Position = players.Position.apply(lambda x: x.replace('{', ''))
         players.Position = players.Position.apply(lambda x: x.replace('}', ''))
-        players.Position = players.Position.apply(lambda x: x.replace(',Baseman', ''))
+        players.Position = players.Position.apply(
+            lambda x: x.replace(',Baseman', ''))
         players.Position = players.Position.apply(lambda x: x.split(','))
-        df_dummies = pd.DataFrame(list(players['Position'].apply(self._list_to_dict).values)).fillna(0)
+        df_dummies = pd.DataFrame(list(players['Position'].apply(
+            self._list_to_dict).values)).fillna(0)
         players = players.join(df_dummies)
 
         players = players.drop('Position', axis=1)
@@ -181,18 +216,23 @@ class clean_data(object):
         players['Throws'] = players['Throws'].apply(lambda x: x.replace('{', ''))
         players['Throws'] = players['Throws'].apply(lambda x: x.replace('}', ''))
 
-        players['Bats'] = players['Bats'].apply(lambda x: 'Unknown' if x == 'N/A' else x)
-        players['Throws'] = players['Throws'].apply(lambda x: 'Unknown' if x == 'N/A' else x)
+        players['Bats'] = players['Bats'].apply(
+            lambda x: 'Unknown' if x == 'N/A' else x)
+        players['Throws'] = players['Throws'].apply(
+            lambda x: 'Unknown' if x == 'N/A' else x)
 
-        players[['Bats_both', 'Bats_left', 'Bats_Right', 'Bats_unknown']] = pd.get_dummies(players['Bats'])
-        players[['Throws_left', 'Throws_right', 'Throws_unknown']] = pd.get_dummies(players['Throws'])
+        players[['Bats_both', 'Bats_left', 'Bats_Right', 'Bats_unknown']] =\
+            pd.get_dummies(players['Bats'])
+        players[['Throws_left', 'Throws_right', 'Throws_unknown']] =\
+            pd.get_dummies(players['Throws'])
         players = players.drop('Throws', axis=1)
         players = players.drop('Bats', axis=1)
         players = players.drop('Position', axis=1)
         players = players.drop('Birth_year', axis=1)
 
+        # this person has '--' as age
         for id in self.drop_id_lst:
-            players = players[players['player_id'] != id]  # this person has '--' as age
+            players = players[players['player_id'] != id]
         self.players = players
 
     def _list_to_dict(self, category_list):

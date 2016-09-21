@@ -1,3 +1,13 @@
+"""rookies_scraper script.
+
+This script is to scrap list of rookie MLB players per year
+(players who appeared for the first time in the MLB)
+This list will be used to label the Minor League players data
+weather if the player will play in the Majors next year or not
+
+Check Download directory for the csv files downloaded
+"""
+
 from selenium import webdriver
 import numpy as np
 import time
@@ -6,12 +16,25 @@ from sys import argv
 
 
 def get_rookies(path_to_driver):
+    '''
+    INTPUT
+    ------
+    path_to_driver : str, directory of internet (chrome preferred)
+                     driver to be used
+
+    OUTPUT
+    ------
+    csv files of all pages of MLB rookie data
+    '''
     # /home/jun/Downloads/chromedriver
     browser = webdriver.Chrome(path_to_driver)
     browser.get('http://www.baseball-reference.com')
     # You need to log in first
     raw_input('Press Enter after you log in into Baseball-Reference')
 
+    # url to the Baseball-Reference's Play Index search page
+    # which is set to only find the players with first year of the career
+    # from year 2000 to year 2016
     url = 'http://www.baseball-reference.com/play-index/season_finder.cgi?\
            type=b&#gotresults&as=result_batter&offset=%s&sum=0&min_year_season\
            =2000&max_year_season=2016&min_season=1&max_season=1&min_age=0&\
@@ -26,8 +49,9 @@ def get_rookies(path_to_driver):
            eq&c1val=0&c2gtlt=eq&c2val=0&c3gtlt=eq&c3val=0&c4gtlt=eq&c4val\
            =0&c5gtlt=eq&c5val=1.0&location=pob&locationMatch=is&pob=&pod\
            =&pcanada=&pusa=&ajax=1&submitter=1&&z=1'
+
     for page in np.arange(0, 3800, 200):
-        time.sleep(1)
+        time.sleep(1)  # giving a little break in between for smooth transform
         browser.get(url % str(page))
         time.sleep(5)
         browser.get(url % str(page))

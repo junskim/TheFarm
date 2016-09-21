@@ -1,10 +1,16 @@
+"""prospect_scraper script.
+
+Intended to scrap list of top 10 prospects for each MLB team for future use
+"""
+
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 from collections import defaultdict
 
 def scraper():
-    team_nums = range(2, 33)
+
+    team_nums = range(2, 33)  # total 32 MLB teams
     url = 'http://www.thebaseballcube.com/prospects/byTeam.asp?T=%s'
     for num in team_nums:
         print url % str(num)
@@ -39,4 +45,4 @@ def make_table(soup, col_name, team_name):
     return team_name + ', done'
 
 if __name__ == '__main__':
-    scrapper()
+    scraper()
