@@ -7,6 +7,7 @@ for Analytical Base Table
 Things to be done to upgrade:
 1. Multiprocessing function to be added
 2. Incorporate filter_players() with prepare_table.py script
+3. Use sklearn's Pipeline
 """
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
@@ -30,7 +31,7 @@ class scraper(object):
 
     INPUT
     ------
-    db_name : string, name of MongoDB db desired for scrapping
+    db_name : string, name of MongoDB db desired for scraping
     """
 
     def __init__(self, db_name):
